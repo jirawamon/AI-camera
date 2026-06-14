@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Responsive Performance Metrics Dashboard</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#1a4a56",
+              "background-light": "#f7f7f7",
+              "background-dark": "#12181d",
+            },
+            fontFamily: {
+              display: ["Manrope", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+    <style type="text/tailwindcss"> body {
+        font-family: "Manrope", sans-serif;
+      }
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        height: 6px;
+        width: 6px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #dde2e4;
+        border-radius: 10px;
+      }
+      .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.1);
+      }
+    </style>
+  </head>
+  <body class="bg-background-light dark:bg-background-dark text-[#121617] dark:text-white font-display">
+    <div class="flex h-screen overflow-hidden">
+      <aside class="w-20 xl:w-64 bg-primary text-white flex flex-col shrink-0 border-r border-primary/10 transition-all duration-300">
+        <div class="p-4 xl:p-6 flex items-center gap-3">
+          <div class="size-10 bg-white/10 rounded-lg flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-white text-2xl">analytics</span>
+          </div>
+          <div class="flex flex-col hidden xl:flex">
+            <h1 class="text-base font-bold leading-none">Provincial office</h1>
+            <p class="text-white/60 text-xs uppercase tracking-wider font-semibold mt-1"> Chiang Mai </p>
+          </div>
+        </div>
+        <nav class="flex-1 px-3 xl:px-4 mt-4 space-y-1">
+          <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-white/10 text-white group justify-center xl:justify-start" href="#" title="Dashboard">
+            <span class="material-symbols-outlined">dashboard</span>
+            <span class="text-sm font-medium hidden xl:block">Dashboard</span>
+          </a>
+          <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white transition-all justify-center xl:justify-start" href="#" title="Analytics">
+            <span class="material-symbols-outlined">bar_chart</span>
+            <span class="text-sm font-medium hidden xl:block">Analytics</span>
+          </a>
+          <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white transition-all justify-center xl:justify-start" href="#" title="Transactions">
+            <span class="material-symbols-outlined">payments</span>
+            <span class="text-sm font-medium hidden xl:block">Transactions</span>
+          </a>
+          <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white transition-all justify-center xl:justify-start" href="#" title="Customers">
+            <span class="material-symbols-outlined">group</span>
+            <span class="text-sm font-medium hidden xl:block">Customers</span>
+          </a>
+          <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white transition-all justify-center xl:justify-start" href="#" title="Reports">
+            <span class="material-symbols-outlined">description</span>
+            <span class="text-sm font-medium hidden xl:block">Reports</span>
+          </a>
+          <div class="pt-4 pb-2 hidden xl:block">
+            <p class="px-3 text-[10px] font-bold text-white/40 uppercase tracking-widest"> Preferences </p>
+          </div>
+          <div class="xl:hidden border-t border-white/10 my-2"></div>
+          <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white transition-all justify-center xl:justify-start" href="#" title="Settings">
+            <span class="material-symbols-outlined">settings</span>
+            <span class="text-sm font-medium hidden xl:block">Settings</span>
+          </a>
+          <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/5 hover:text-white transition-all justify-center xl:justify-start" href="#" title="Support">
+            <span class="material-symbols-outlined">help</span>
+            <span class="text-sm font-medium hidden xl:block">Support</span>
+          </a>
+        </nav>
+        <div class="p-4 border-t border-white/10">
+          <button class="w-full bg-white text-primary font-bold py-2.5 rounded-lg flex items-center justify-center gap-2 text-sm">
+            <span class="material-symbols-outlined text-sm">download</span>
+            <span class="hidden xl:block">Export Report</span>
+          </button>
+          <div class="mt-4 flex items-center gap-3 px-2">
+            <div class="size-9 rounded-full bg-center bg-cover border-2 border-white/20 shrink-0" data-alt="User profile avatar image" style="
+                background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDEMC5VYNK1bh1ZAwmRCSHq9lh_na3tTHIFF3PNWUMW-2TSqLmN-5WC2aZFjWtcFxGMFUepEefZDcqQnhSixsY3aIJNJ9JE5bkaSjouFH5kjuuHrHiFSCrKelzbcaiGMdj_7pWpk6XUAcxw08ko_OPz2awUmMD_GcK5xBhzISvY2_WeO6e0lAfgZSALU3jliFNl6gZDv6_vjxKoG83ZRR89CoIqlM17MBSTMj75I0QsLnrHTqQLkE9l4huYuQsQJjuJclDPc9rofZfA');
+              "></div>
+            <div class="flex-1 min-w-0 hidden xl:block">
+              <p class="text-sm font-bold truncate">Alex Chen</p>
+              <p class="text-xs text-white/50 truncate">Lead Analyst</p>
+            </div>
+            <span class="material-symbols-outlined text-white/40 text-lg cursor-pointer hidden xl:block">logout</span>
+          </div>
+        </div>
+      </aside>
+      <main class="flex-1 flex flex-col overflow-y-auto bg-background-light dark:bg-background-dark">
+        <div class="w-full max-w-[1600px] mx-auto flex flex-col flex-1">
+          <header class="h-16 shrink-0 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-[#dde2e4] dark:border-white/10 flex items-center justify-between px-6 lg:px-8 z-10 sticky top-0">
+            <div class="flex items-center gap-6 flex-1">
+              <h2 class="text-lg font-bold tracking-tight whitespace-nowrap hidden sm:block"> Performance Dashboard </h2>
+              <div class="max-w-md w-full relative">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[#687d82]">search</span>
+                <input class="w-full bg-background-light dark:bg-white/5 border-none rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary" placeholder="Search analytics..." type="text" />
+              </div>
+            </div>
+            <div class="flex items-center gap-2 sm:gap-4 ml-4">
+              <button class="p-2 rounded-lg bg-background-light dark:bg-white/5 text-[#121617] dark:text-white relative">
+                <span class="material-symbols-outlined">notifications</span>
+                <span class="absolute top-2.5 right-2.5 size-1.5 bg-red-500 rounded-full"></span>
+              </button>
+              <!-- <button
+                class="hidden md:flex p-2 rounded-lg bg-background-light dark:bg-white/5 text-[#121617] dark:text-white"
+              ><span class="material-symbols-outlined">chat_bubble</span></button><div
+                class="h-8 w-[1px] bg-[#dde2e4] dark:bg-white/10 mx-1 sm:mx-2"
+              ></div><div class="flex items-center gap-2 whitespace-nowrap"><span class="text-sm font-medium hidden lg:inline"
+                  >Q3 2023</span
+                ><span class="material-symbols-outlined text-sm"
+                  >calendar_month</span
+                ></div> -->
+            </div>
+          </header>
+          <div class="p-6 lg:p-8 space-y-8">
+            <div class="flex flex-col xl:flex-row xl:items-end justify-between gap-6">
+              <div class="space-y-1">
+                <p class="text-3xl font-extrabold tracking-tight"> Operational Overview </p>
+                <p class="text-[#687d82] dark:text-white/60"> Real-time performance tracking and transaction monitoring across global sectors. </p>
+              </div>
+              <div class="flex items-center bg-[#f1f3f4] dark:bg-white/5 p-1 rounded-xl w-fit">
+                <button class="px-4 sm:px-6 py-2 rounded-lg text-sm font-bold bg-white dark:bg-primary shadow-sm text-[#121617] dark:text-white"> รายวัน </button>
+                <button class="px-4 sm:px-6 py-2 rounded-lg text-sm font-medium text-[#687d82] dark:text-white/50 hover:text-primary transition-colors"> รายเดือน </button>
+                <button class="px-4 sm:px-6 py-2 rounded-lg text-sm font-medium text-[#687d82] dark:text-white/50 hover:text-primary transition-colors"> รายปี </button>
+                <button class="px-4 sm:px-6 py-2 rounded-lg text-sm font-medium text-[#687d82] dark:text-white/50 hover:text-primary transition-colors"> ตลอดเวลา </button>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+              <div class="bg-white dark:bg-white/5 border border-[#dde2e4] dark:border-white/10 p-6 rounded-xl shadow-sm hover:shadow-md transition-all">
+                <div class="flex items-center justify-between mb-4">
+                  <span class="text-lg font-semibold text-[#687d82] dark:text-white/60 uppercase tracking-wider">จำนวนคนเข้า-ออก</span>
+                  <span class="material-symbols-outlined text-primary/40">trending_up</span>
+                </div>
+                <div class="flex items-baseline gap-2">
+                  <h3 class="text-2xl font-extrabold">256 คน</h3>
+                  <span class="text-green-600 dark:text-green-400 text-xs font-bold bg-green-50 dark:bg-green-500/10 px-1.5 py-0.5 rounded">+5.2%</span>
+                </div>
+                <div class="mt-4 flex gap-1 items-end h-8">
+                  <div class="w-full bg-primary/20 h-3 rounded-sm"></div>
+                  <div class="w-full bg-primary/20 h-5 rounded-sm"></div>
+                  <div class="w-full bg-primary/20 h-4 rounded-sm"></div>
+                  <div class="w-full bg-primary h-6 rounded-sm"></div>
+                  <div class="w-full bg-primary h-7 rounded-sm"></div>
+                  <div class="w-full bg-primary h-8 rounded-sm"></div>
+                </div>
+              </div>
+              <div class="bg-white dark:bg-white/5 border border-[#dde2e4] dark:border-white/10 p-6 rounded-xl shadow-sm hover:shadow-md transition-all">
+                <div class="flex items-center justify-between mb-4">
+                  <span class="text-xs font-semibold text-[#687d82] dark:text-white/60 uppercase tracking-wider">Monthly Target</span>
+                  <span class="material-symbols-outlined text-primary/40">track_changes</span>
+                </div>
+                <div class="flex items-baseline gap-2">
+                  <h3 class="text-2xl font-extrabold">$124,500.00</h3>
+                  <span class="text-green-600 dark:text-green-400 text-xs font-bold bg-green-50 dark:bg-green-500/10 px-1.5 py-0.5 rounded">+12.4%</span>
+                </div>
+                <div class="mt-4 w-full bg-[#f1f3f4] dark:bg-white/10 h-2 rounded-full overflow-hidden">
+                  <div class="bg-primary h-full w-[78%]"></div>
+                </div>
+                <p class="text-[10px] mt-2 text-[#687d82] dark:text-white/40 font-bold uppercase"> 78% of monthly goal reached </p>
+              </div>
+              <div class="bg-white dark:bg-white/5 border border-[#dde2e4] dark:border-white/10 p-6 rounded-xl shadow-sm hover:shadow-md transition-all">
+                <div class="flex items-center justify-between mb-4">
+                  <span class="text-xs font-semibold text-[#687d82] dark:text-white/60 uppercase tracking-wider">Yearly Projection</span>
+                  <span class="material-symbols-outlined text-primary/40">query_stats</span>
+                </div>
+                <div class="flex items-baseline gap-2">
+                  <h3 class="text-2xl font-extrabold">$1.2M</h3>
+                  <span class="text-red-500 text-xs font-bold bg-red-50 dark:bg-red-500/10 px-1.5 py-0.5 rounded">-2.1%</span>
+                </div>
+                <div class="mt-4 flex justify-between items-center text-xs text-[#687d82] dark:text-white/60 font-medium">
+                  <span>Prev: $1.24M</span>
+                  <span class="material-symbols-outlined text-xs">arrow_downward</span>
+                </div>
+              </div>
+              <div class="bg-white dark:bg-white/5 border border-[#dde2e4] dark:border-white/10 p-6 rounded-xl shadow-sm hover:shadow-md transition-all">
+                <div class="flex items-center justify-between mb-4">
+                  <span class="text-xs font-semibold text-[#687d82] dark:text-white/60 uppercase tracking-wider">Lifetime Value</span>
+                  <span class="material-symbols-outlined text-primary/40">all_inclusive</span>
+                </div>
+                <div class="flex items-baseline gap-2">
+                  <h3 class="text-2xl font-extrabold">$4.8M</h3>
+                  <span class="text-green-600 dark:text-green-400 text-xs font-bold bg-green-50 dark:bg-green-500/10 px-1.5 py-0.5 rounded">+8.5%</span>
+                </div>
+                <div class="mt-4 flex -space-x-2">
+                  <div class="size-6 rounded-full border-2 border-white dark:border-[#2a343b] bg-slate-300" data-alt="User avatar"></div>
+                  <div class="size-6 rounded-full border-2 border-white dark:border-[#2a343b] bg-slate-400" data-alt="User avatar"></div>
+                  <div class="size-6 rounded-full border-2 border-white dark:border-[#2a343b] bg-slate-500" data-alt="User avatar"></div>
+                  <div class="size-6 rounded-full border-2 border-white dark:border-[#2a343b] bg-primary flex items-center justify-center text-[8px] font-bold text-white"> +12k </div>
+                </div>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div class="lg:col-span-10 lg:col-start-1">
+                <div class="lg:col-span-2 bg-white dark:bg-white/5 border border-[#dde2e4] dark:border-white/10 p-6 rounded-xl shadow-sm max-w-auto mx-auto">
+                  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+                    <div>
+                      <h4 class="text-lg font-bold"> Monthly Performance Comparison </h4>
+                      <p class="text-sm text-[#687d82] dark:text-white/60"> Revenue distribution for the current fiscal year </p>
+                    </div>
+                    <button class="p-2 rounded hover:bg-background-light dark:hover:bg-white/5 w-fit">
+                      <span class="material-symbols-outlined text-lg">more_horiz</span>
+                    </button>
+                  </div>
+                  <div class="relative h-[600px] grid grid-cols-[40px_1fr] gap-4 px-4">
+                    <div class="flex flex-col justify-between text-sm text-[#687d82] font-bold pb-6">
+                      <span>200k</span>
+                      <span>150k</span>
+                      <span>100k</span>
+                      <span>50k</span>
+                      <span>0</span>
+                    </div>
+                    <div class="absolute inset-y-0 left-[56px] right-4 pointer-events-none">
+                      <div class="h-full flex flex-col justify-between pb-6">
+                        <div class="border-t border-dashed border-gray-300"></div>
+                        <div class="border-t border-dashed border-gray-300"></div>
+                        <div class="border-t border-dashed border-gray-300"></div>
+                        <div class="border-t border-dashed border-gray-300"></div>
+                        <div class="border-t border-dashed border-gray-300"></div>
+                      </div>
+                    </div>
+                    <div class="flex-1 grid grid-cols-8 items-end gap-6 h-full ml-4 border-b pb-6">
+                      <div class="w-full bg-primary/10 rounded-t-sm h-[40%] hover:bg-primary transition-all group relative">
+                        <span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] font-bold text-[#687d82]">JAN</span>
+                      </div>
+                      <div class="w-full bg-primary/10 rounded-t-sm h-[55%] hover:bg-primary transition-all group relative">
+                        <span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] font-bold text-[#687d82]">FEB</span>
+                      </div>
+                      <div class="w-full bg-primary/10 rounded-t-sm h-[45%] hover:bg-primary transition-all group relative">
+                        <span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] font-bold text-[#687d82]">MAR</span>
+                      </div>
+                      <div class="w-full bg-primary/10 rounded-t-sm h-[75%] hover:bg-primary transition-all group relative">
+                        <span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] font-bold text-[#687d82]">APR</span>
+                      </div>
+                      <div class="w-full bg-primary/10 rounded-t-sm h-[60%] hover:bg-primary transition-all group relative">
+                        <span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] font-bold text-[#687d82]">MAY</span>
+                      </div>
+                      <div class="w-full bg-primary/10 rounded-t-sm h-[85%] hover:bg-primary transition-all group relative">
+                        <span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] font-bold text-[#687d82]">JUN</span>
+                      </div>
+                      <div class="w-full bg-primary rounded-t-sm h-[95%] group relative shadow-[0_-4px_12px_rgba(26,74,86,0.3)]">
+                        <span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] font-bold text-primary">JUL</span>
+                        <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-primary text-white text-xs py-1 px-2 rounded font-bold whitespace-nowrap"> $192k </div>
+                      </div>
+                      <div class="w-full bg-primary/10 rounded-t-sm h-[70%] hover:bg-primary transition-all group relative">
+                        <span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] font-bold text-[#687d82]">AUG</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- <div
+                class="bg-primary text-white p-8 rounded-xl shadow-lg flex flex-col justify-between overflow-hidden relative min-h-[320px]"
+              ><div
+                  class="absolute top-0 right-0 w-48 h-48 bg-white/5 rounded-full -mr-24 -mt-24"
+                ></div><div class="relative z-10"><p
+                    class="text-white/60 text-xs font-bold uppercase tracking-widest mb-2"
+                  >
+                    Quarterly Insight
+                  </p><h4 class="text-xl font-bold leading-tight">
+                    North American market share increased by
+                    <span class="text-green-400">14%</span> this period.
+                  </h4></div><div class="relative z-10 space-y-4"><div class="flex items-center gap-4"><div class="p-2 bg-white/10 rounded-lg"><span class="material-symbols-outlined text-white"
+                        >rocket_launch</span
+                      ></div><div><p class="text-xs font-bold text-white/50">
+                        Efficiency Index
+                      </p><p class="text-lg font-bold">92.4 / 100</p></div></div><button
+                    class="w-full py-3 bg-white/10 hover:bg-white/20 transition-colors border border-white/20 rounded-lg text-sm font-bold"
+                  >
+                    View Strategy PDF
+                  </button></div></div> -->
+            </div>
+            <div class="bg-white dark:bg-white/5 border border-[#dde2e4] dark:border-white/10 rounded-xl overflow-hidden shadow-sm flex flex-col">
+              <div class="p-6 border-b border-[#dde2e4] dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <h4 class="text-lg font-bold">Recent Event</h4>
+                <div class="flex gap-2">
+                  <button class="flex items-center gap-2 px-3 py-1.5 text-xs font-bold bg-background-light dark:bg-white/5 rounded-lg border border-[#dde2e4] dark:border-white/10 hover:border-primary/30 transition-colors">
+                    <span class="material-symbols-outlined text-sm">filter_list</span> Filter </button>
+                  <button class="flex items-center gap-2 px-3 py-1.5 text-xs font-bold bg-background-light dark:bg-white/5 rounded-lg border border-[#dde2e4] dark:border-white/10 hover:border-primary/30 transition-colors">
+                    <span class="material-symbols-outlined text-sm">download</span> CSV </button>
+                </div>
+              </div>
+              <div class="overflow-x-auto custom-scrollbar">
+                <table class="w-full text-left min-w-[900px]">
+                  <thead class="bg-background-light dark:bg-white/5 text-[10px] font-bold text-[#687d82] dark:text-white/40 uppercase tracking-widest">
+                    <tr>
+                      <th class="px-6 py-4">Log ID</th>
+                      <th class="px-6 py-4">Date/Time</th>
+                      <th class="px-6 py-4">Camera</th>
+                      <th class="px-6 py-4">Event</th>
+                      <th class="px-6 py-4 text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-[#dde2e4] dark:divide-white/10 text-sm">
+                    <tr class="hover:bg-primary/5 transition-colors group">
+                      <td class="px-6 py-4 font-bold text-primary dark:text-white"> #TR-88219 </td>
+                      <td class="px-6 py-4 text-[#687d82] dark:text-white/60"> Oct 24, 2023 </td>
+                      <td class="px-6 py-4 text-[#687d82] dark:text-white/60"> Camera 1 </td>
+                      <td class="px-6 py-4">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded text-[15px] font-bold bg-yellow-100 dark:bg-yellow-500/20 text-yellow-700 dark:text-yellow-400 uppercase">มีคนเข้าพื้นที่เสี่ยง</span>
+                      </td>
+                      <td class="px-6 py-4 text-right">
+                        <button class="text-[#687d82] hover:text-primary">
+                          <span class="material-symbols-outlined text-lg">visibility</span>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr class="hover:bg-primary/5 transition-colors group">
+                      <td class="px-6 py-4 font-bold text-primary dark:text-white"> #TR-88220 </td>
+                      <td class="px-6 py-4 text-[#687d82] dark:text-white/60"> Oct 24, 2023 </td>
+                      <td class="px-6 py-4 text-[#687d82] dark:text-white/60"> Camera 4 </td>
+                      <td class="px-6 py-4">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded text-[15px] font-bold bg-red-100 dark:bg-red-500/20 text-red-700 dark:text-red-400 uppercase">สูบบุหรี่</span>
+                      </td>
+                      <td class="px-6 py-4 text-right">
+                        <button class="text-[#687d82] hover:text-primary">
+                          <span class="material-symbols-outlined text-lg">visibility</span>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr class="hover:bg-primary/5 transition-colors group">
+                      <td class="px-6 py-4 font-bold text-primary dark:text-white"> #TR-88221 </td>
+                      <td class="px-6 py-4 text-[#687d82] dark:text-white/60"> Oct 23, 2023 </td>
+                      <td class="px-6 py-4 text-[#687d82] dark:text-white/60"> Camera 2 </td>
+                      <td class="px-6 py-4">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded text-[15px] font-bold bg-yellow-100 dark:bg-yellow-500/20 text-yellow-700 dark:text-yellow-400 uppercase">จักรยานยนต์เข้าพื้นที่</span>
+                      </td>
+                      <td class="px-6 py-4 text-right">
+                        <button class="text-[#687d82] hover:text-primary">
+                          <span class="material-symbols-outlined text-lg">visibility</span>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr class="hover:bg-primary/5 transition-colors group">
+                      <td class="px-6 py-4 font-bold text-primary dark:text-white"> #TR-88222 </td>
+                      <td class="px-6 py-4 text-[#687d82] dark:text-white/60"> Oct 23, 2023 </td>
+                      <td class="px-6 py-4 text-[#687d82] dark:text-white/60"> Camera 1 </td>
+                      <td class="px-6 py-4">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded text-[15px] font-bold bg-red-100 dark:bg-red-500/20 text-red-700 dark:text-red-400 uppercase">ทะเลาะวิวาท</span>
+                      </td>
+                      <td class="px-6 py-4 text-right">
+                        <button class="text-[#687d82] hover:text-primary">
+                          <span class="material-symbols-outlined text-lg">visibility</span>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="p-4 bg-background-light dark:bg-white/5 border-t border-[#dde2e4] dark:border-white/10 flex items-center justify-between gap-4">
+                <p class="text-xs text-[#687d82] dark:text-white/40 font-medium"> Showing 1 to 4 of 28 transactions </p>
+                <div class="flex items-center gap-2">
+                  <button class="size-8 flex items-center justify-center rounded border border-[#dde2e4] dark:border-white/10 disabled:opacity-50" disabled="">
+                    <span class="material-symbols-outlined text-lg">chevron_left</span>
+                  </button>
+                  <button class="size-8 flex items-center justify-center rounded bg-primary text-white text-xs font-bold"> 1 </button>
+                  <button class="size-8 flex items-center justify-center rounded border border-[#dde2e4] dark:border-white/10 text-xs font-bold hover:bg-white dark:hover:bg-white/5 transition-colors"> 2 </button>
+                  <button class="size-8 flex items-center justify-center rounded border border-[#dde2e4] dark:border-white/10 text-xs font-bold hover:bg-white dark:hover:bg-white/5 transition-colors"> 3 </button>
+                  <button class="size-8 flex items-center justify-center rounded border border-[#dde2e4] dark:border-white/10 hover:bg-white dark:hover:bg-white/5 transition-colors">
+                    <span class="material-symbols-outlined text-lg">chevron_right</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

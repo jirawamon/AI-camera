@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>ระบบติดตามกล้องวงจรปิด – สำนักงานจังหวัดเชียงใหม่</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Noto+Serif+Thai:wght@600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --navy:#081228;
+  --royal:#123a7d;
+  --blue:#1f5eff;
+  --sky:#00b7ff;
+  --gold:#36d1ff;
+  --gold-light:#7de6ff;
+  --gold-pale:#eaf8ff;
+  --bg:#f3f8ff;
+  --card:#ffffff;
+  --border:#cfe0ff;
+  --border-soft:#e7f0ff;
+  --text:#0b1a36;
+  --muted:#3f5d8f;
+  --faint:#7e99c7;
+  --green:#1a7a4a;
+  --green-bg:#e4f5ec;
+  --red:#c0392b;
+  --red-bg:#fdecea;
+  --amber:#b07a10;
+  --amber-bg:#fef3dc;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:'Sarabun',sans-serif;
+  background:
+    radial-gradient(1200px 650px at 92% -10%, rgba(0,183,255,0.18), transparent 60%),
+    radial-gradient(900px 560px at -8% 108%, rgba(31,94,255,0.15), transparent 58%),
+    var(--bg);
+  color:var(--text);display:flex;min-height:100vh;font-size:14px;
+}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  width:220px;background:
+  linear-gradient(180deg,#061127 0%,#0a1e44 45%,#08224a 100%);
+  display:flex;flex-direction:column;
+  flex-shrink:0;position:fixed;top:0;left:0;height:100vh;z-index:50;
+  border-right:1px solid rgba(0,183,255,0.25);
+  box-shadow:0 0 0 1px rgba(125,230,255,0.08) inset;
+}
+.sidebar-brand{
+  padding:18px 16px 14px;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  background:linear-gradient(135deg,rgba(18,58,125,0.86),rgba(8,18,40,0.92));
+}
+.brand-emblem{
+  width:40px;height:40px;
+  background:linear-gradient(135deg,var(--royal),var(--sky));
+  border-radius:50%;border:1.5px solid rgba(125,230,255,0.6);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:10px;flex-shrink:0;
+  box-shadow:0 0 14px rgba(0,183,255,0.5);
+}
+.brand-emblem svg{width:20px;height:20px;fill:#e8fbff;}
+.brand-title{font-family:'Noto Serif Thai',serif;font-size:12.5px;font-weight:700;color:#fff;line-height:1.4;}
+.brand-sub{font-size:10.5px;color:rgba(255,255,255,0.45);margin-top:2px;letter-spacing:0.04em;}
+.brand-sys{font-size:10px;color:rgba(125,230,255,0.9);margin-top:6px;letter-spacing:0.06em;text-transform:uppercase;border-top:1px solid rgba(255,255,255,0.07);padding-top:6px;}
+
+.sidebar-nav{flex:1;padding:12px 8px;overflow-y:auto;}
+.nav-section{font-size:9.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.3);padding:10px 10px 4px;}
+.nav-item{
+  display:flex;align-items:center;gap:10px;padding:9px 12px;
+  border-radius:7px;cursor:pointer;color:rgba(255,255,255,0.6);
+  font-size:13px;font-weight:500;transition:all .2s;margin-bottom:2px;text-decoration:none;
+}
+.nav-item:hover{background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.9);}
+.nav-item.active{
+  background:linear-gradient(90deg,rgba(54,209,255,0.28),rgba(31,94,255,0.2));
+  color:#fff;border-left:3px solid var(--sky);padding-left:9px;
+  box-shadow:0 0 12px rgba(0,183,255,0.25);
+}
+.nav-item svg{width:15px;height:15px;flex-shrink:0;}
+
+.sidebar-foot{padding:12px 8px 16px;border-top:1px solid rgba(255,255,255,0.07);}
+.btn-export{
+  display:flex;align-items:center;justify-content:center;gap:8px;width:100%;
+  padding:9px;background:rgba(54,209,255,0.18);
+  border:1px solid rgba(54,209,255,0.36);border-radius:7px;
+  color:#b9f2ff;font-size:12.5px;font-family:'Sarabun',sans-serif;
+  cursor:pointer;transition:all .2s;font-weight:600;
+}
+.btn-export:hover{background:rgba(54,209,255,0.28);border-color:var(--sky);}
+
+/* ── MAIN ── */
+.main{margin-left:220px;flex:1;display:flex;flex-direction:column;}
+
+/* ── GOV TOPBAR ── */
+.gov-topbar{
+  background:var(--navy);
+  padding:0 28px;height:44px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:2px solid var(--sky);
+}
+.gov-topbar-left{display:flex;align-items:center;gap:16px;}
+.gov-flag{font-size:14px;}
+.gov-tag{font-size:11px;color:rgba(255,255,255,0.6);letter-spacing:0.04em;}
+.gov-topbar-right{display:flex;align-items:center;gap:14px;}
+.gov-topbar a{color:rgba(255,255,255,0.5);font-size:11.5px;text-decoration:none;transition:color .2s;}
+.gov-topbar a:hover{color:var(--gold-light);}
+
+.topbar{
+  background:rgba(255,255,255,0.92);border-bottom:1px solid var(--border);
+  padding:0 28px;height:56px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:40;
+  box-shadow:0 2px 14px rgba(8,18,40,0.08);
+  backdrop-filter:blur(10px);
+}
+.topbar-left{display:flex;align-items:center;gap:14px;}
+.topbar-title{font-family:'Noto Serif Thai',serif;font-weight:700;font-size:15.5px;color:var(--navy);}
+.topbar-divider{width:1px;height:20px;background:var(--border);}
+.device-wrap{position:relative;display:flex;align-items:center;}
+.device-wrap svg{position:absolute;left:9px;width:13px;height:13px;color:var(--muted);pointer-events:none;}
+.device-select{
+  appearance:none;background:#f4f7fc;border:1px solid var(--border);
+  border-radius:7px;padding:7px 30px 7px 28px;
+  font-size:13px;font-family:'Sarabun',sans-serif;color:var(--text);
+  outline:none;min-width:200px;cursor:pointer;
+}
+.device-select:focus{border-color:var(--blue);}
+.device-arrow{position:absolute;right:9px;pointer-events:none;color:var(--muted);}
+
+.topbar-right{display:flex;align-items:center;gap:10px;}
+.topbar-meta{font-size:12px;color:var(--muted);font-family:'IBM Plex Mono',monospace;}
+.icon-btn{
+  background:none;border:1px solid var(--border);border-radius:7px;
+  width:34px;height:34px;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:var(--muted);transition:all .2s;
+}
+.icon-btn:hover{background:var(--bg);color:var(--text);border-color:var(--blue);}
+.user-chip{
+  display:flex;align-items:center;gap:8px;padding:5px 12px 5px 6px;
+  background:#f4f7fc;border:1px solid var(--border);border-radius:20px;cursor:pointer;
+}
+.user-avatar{
+  width:26px;height:26px;border-radius:50%;
+  background:linear-gradient(135deg,var(--royal),var(--blue));
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;color:#fff;
+}
+.user-name{font-size:12.5px;font-weight:600;color:var(--text);}
+
+/* ── CONTENT ── */
+.content{padding:26px;}
+.page{display:none;animation:fadeIn .3s ease;}
+.page.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+/* ── PAGE HEADER ── */
+.page-header{margin-bottom:22px;}
+.ph-row{display:flex;align-items:flex-start;justify-content:space-between;}
+.page-title{font-family:'Noto Serif Thai',serif;font-size:22px;font-weight:700;color:var(--navy);}
+.page-sub{font-size:13px;color:var(--muted);margin-top:3px;}
+.page-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--gold-pale);border:1px solid rgba(200,151,42,0.3);
+  color:var(--amber);font-size:11.5px;font-weight:700;
+  padding:5px 12px;border-radius:20px;letter-spacing:0.04em;
+}
+.page-badge::before{content:'●';font-size:7px;color:var(--green);}
+
+/* ── TABS ── */
+.tabs{
+  display:flex;gap:2px;background:rgba(255,255,255,0.9);border:1px solid var(--border);
+  border-radius:9px;padding:4px;width:fit-content;margin-bottom:22px;
+  box-shadow:0 1px 10px rgba(8,18,40,0.08);
+}
+.tab{
+  padding:7px 20px;border-radius:6px;font-size:13.5px;font-weight:500;
+  cursor:pointer;color:var(--muted);transition:all .2s;border:none;
+  background:none;font-family:'Sarabun',sans-serif;
+}
+.tab.active{
+  background:linear-gradient(135deg,var(--royal),var(--sky));
+  color:#fff;box-shadow:0 2px 12px rgba(0,183,255,0.35);
+}
+.tab:hover:not(.active){background:var(--bg);color:var(--text);}
+
+/* ── STAT CARDS ── */
+.stats-row{display:grid;gap:16px;margin-bottom:18px;}
+.stats-4{grid-template-columns:repeat(4,1fr);}
+.stats-2{grid-template-columns:repeat(2,1fr);}
+.stat-card{
+  background:linear-gradient(180deg,#ffffff 0%,#f7fbff 100%);border:1px solid var(--border);
+  border-radius:12px;padding:20px 22px;
+  box-shadow:0 1px 8px rgba(8,18,40,0.07);
+  transition:box-shadow .2s;
+}
+.stat-card:hover{box-shadow:0 8px 18px rgba(8,18,40,0.12);}
+.sc-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.sc-label{font-size:12.5px;color:var(--muted);font-weight:600;}
+.sc-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;}
+.sc-icon svg{width:18px;height:18px;}
+.si-navy{background:#e8eef8;} .si-navy svg{color:var(--royal);}
+.si-blue{background:#dde8f8;} .si-blue svg{color:var(--blue);}
+.si-gold{background:#fef3dc;} .si-gold svg{color:var(--amber);}
+.si-green{background:var(--green-bg);} .si-green svg{color:var(--green);}
+.si-red{background:var(--red-bg);} .si-red svg{color:var(--red);}
+.sc-value{font-size:32px;font-weight:700;color:var(--navy);font-family:'IBM Plex Mono',monospace;line-height:1;}
+.sc-unit{font-size:14px;font-weight:500;color:var(--muted);margin-left:4px;}
+.sc-detail{font-size:12px;color:var(--faint);margin-top:5px;display:flex;align-items:center;gap:4px;}
+.sc-mini-bar{display:flex;gap:3px;margin-top:10px;}
+.mb-seg{flex:1;height:3px;background:var(--border);border-radius:2px;}
+.mb-filled{background:linear-gradient(90deg,var(--royal),var(--blue));}
+/* Equipment header chips */
+.eq-chips{display:flex;gap:12px;}
+.eq-chip{
+  background:var(--card);border:1.5px solid var(--border);
+  border-radius:10px;padding:12px 20px;text-align:center;min-width:110px;
+  box-shadow:0 1px 4px rgba(13,31,60,0.05);
+}
+.eq-chip-label{display:flex;align-items:center;justify-content:center;gap:5px;margin-bottom:4px;}
+.eq-chip-label svg{width:14px;height:14px;}
+.eq-chip-text{font-size:11.5px;color:var(--muted);font-weight:600;}
+.eq-chip-val{font-family:'IBM Plex Mono',monospace;font-size:28px;font-weight:700;color:var(--navy);line-height:1;}
+.chip-online .eq-chip-val{color:var(--green);}
+.chip-online{border-color:#a7e3bf;}
+
+/* ── CARDS ── */
+.card{background:linear-gradient(180deg,#ffffff 0%,#f8fbff 100%);border:1px solid var(--border);border-radius:12px;padding:22px;box-shadow:0 1px 8px rgba(8,18,40,0.07);}
+.card-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;}
+.card-title{font-size:14.5px;font-weight:700;color:var(--navy);}
+.card-sub{font-size:12px;color:var(--muted);margin-top:2px;}
+.card-title-row{display:flex;align-items:center;gap:8px;}
+.card-title-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.cti-gold{background:var(--gold-pale);} .cti-gold svg{color:var(--gold);}
+.cti-blue{background:#dde8f8;} .cti-blue svg{color:var(--blue);}
+.icon-btn-sm{background:none;border:1px solid var(--border);border-radius:6px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);transition:all .2s;}
+.icon-btn-sm:hover{border-color:var(--blue);color:var(--blue);}
+
+.grid-2{display:grid;grid-template-columns:1fr 340px;gap:16px;margin-bottom:16px;}
+
+/* empty */
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:44px 20px;gap:10px;}
+.empty svg{width:36px;height:36px;color:var(--border);}
+.empty-text{color:var(--faint);font-size:13px;}
+.empty-sub{font-size:12px;color:var(--faint);}
+
+/* hourly chart placeholder */
+.hour-axis{display:flex;justify-content:space-between;margin-top:8px;}
+.hour-axis span{font-size:11px;color:var(--faint);}
+
+/* ── FILTER BAR ── */
+.filter-bar{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:16px 20px;
+  display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;
+  margin-bottom:16px;box-shadow:0 1px 4px rgba(13,31,60,0.04);
+}
+.ff{display:flex;flex-direction:column;gap:5px;flex:1;min-width:160px;}
+.ff.narrow{flex:0 0 160px;}
+.ff-label{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:0.05em;text-transform:uppercase;}
+.ff-select-wrap{position:relative;}
+.ff-select{
+  appearance:none;background:var(--bg);border:1px solid var(--border);
+  border-radius:7px;padding:8px 28px 8px 10px;font-size:13px;
+  font-family:'Sarabun',sans-serif;color:var(--text);outline:none;width:100%;
+  transition:border .2s;
+}
+.ff-select:focus{border-color:var(--blue);}
+.ff-select-wrap::after{content:'▾';position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:11px;pointer-events:none;}
+.ff-input{
+  appearance:none;background:var(--bg);border:1px solid var(--border);
+  border-radius:7px;padding:8px 10px;font-size:13px;
+  font-family:'Sarabun',sans-serif;color:var(--text);outline:none;width:100%;
+  transition:border .2s;
+}
+.ff-input:focus{border-color:var(--blue);}
+.btn-filter{
+  background:linear-gradient(135deg,var(--royal),var(--blue));color:#fff;
+  border:none;border-radius:7px;padding:9px 20px;
+  font-size:13.5px;font-weight:700;font-family:'Sarabun',sans-serif;
+  cursor:pointer;display:flex;align-items:center;gap:7px;white-space:nowrap;
+  transition:all .2s;box-shadow:0 2px 8px rgba(30,79,160,0.25);
+}
+.btn-filter:hover{box-shadow:0 4px 14px rgba(30,79,160,0.35);transform:translateY(-1px);}
+.btn-reset{
+  background:#fff;color:var(--muted);border:1px solid var(--border);
+  border-radius:7px;padding:9px 16px;font-size:13.5px;
+  font-family:'Sarabun',sans-serif;cursor:pointer;
+  display:flex;align-items:center;gap:6px;transition:all .2s;
+}
+.btn-reset:hover{color:var(--text);border-color:var(--muted);}
+.filter-actions{display:flex;gap:8px;align-items:flex-end;}
+
+/* ── TABLE ── */
+.table-card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:0 1px 4px rgba(13,31,60,0.05);}
+.table-hbar{padding:16px 20px 12px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border-soft);}
+.table-title{font-size:14.5px;font-weight:700;color:var(--navy);}
+.table-count{font-size:12px;color:var(--muted);margin-top:1px;}
+.btn-csv{
+  background:var(--bg);color:var(--muted);border:1px solid var(--border);
+  border-radius:7px;padding:7px 14px;font-size:13px;font-family:'Sarabun',sans-serif;
+  cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s;
+}
+.btn-csv:hover{color:var(--navy);border-color:var(--navy);}
+.table-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;}
+thead tr{background:#f4f7fc;border-bottom:2px solid var(--border);}
+th{padding:10px 16px;text-align:left;font-size:11.5px;font-weight:700;color:var(--muted);letter-spacing:0.05em;text-transform:uppercase;white-space:nowrap;}
+tbody tr{border-bottom:1px solid var(--border-soft);transition:background .15s;}
+tbody tr:last-child{border-bottom:none;}
+tbody tr:hover{background:#f7f9fd;}
+td{padding:13px 16px;font-size:13.5px;vertical-align:middle;}
+.status-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:4px 10px;border-radius:20px;}
+.sb-red{background:var(--red-bg);color:var(--red);}
+.sb-green{background:var(--green-bg);color:var(--green);}
+.dot{width:7px;height:7px;border-radius:50%;}
+.dot-red{background:var(--red);}
+.dot-green{background:var(--green);}
+.device-name{font-weight:700;color:var(--navy);}
+.device-id{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--faint);margin-top:2px;}
+.device-box{font-size:11px;color:var(--faint);}
+.loc-chip{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;color:var(--muted);}
+.loc-chip svg{width:12px;height:12px;color:var(--royal);}
+.event-count{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:14px;color:var(--navy);}
+.day-badge{background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:2px 9px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);}
+.ts{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);}
+.table-foot{padding:10px 20px;border-top:1px solid var(--border-soft);font-size:12px;color:var(--muted);background:#fafbfe;}
+
+/* ── COMPARE ── */
+.compare-selectors{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
+.cam-sel-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;box-shadow:0 1px 4px rgba(13,31,60,0.05);}
+.cam-sel-label{font-size:11px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;margin-bottom:8px;}
+.c1 .cam-sel-label{color:var(--blue);}
+.c2 .cam-sel-label{color:var(--red);}
+.cam-sel-wrap{position:relative;}
+.cam-select{
+  width:100%;appearance:none;background:var(--bg);border:1px solid var(--border);
+  border-radius:8px;padding:9px 32px 9px 12px;font-size:13.5px;
+  font-family:'Sarabun',sans-serif;color:var(--text);outline:none;
+}
+.c1 .cam-select{border-color:#93c5fd;background:#eff6ff;}
+.c2 .cam-select{border-color:#fca5a5;background:#fff5f5;}
+.cam-sel-wrap::after{content:'▾';position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px;pointer-events:none;}
+.compare-chart-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:22px;margin-bottom:16px;box-shadow:0 1px 4px rgba(13,31,60,0.05);}
+.chart-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.chart-legend{display:flex;gap:16px;}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--muted);}
+.legend-dot{width:10px;height:10px;border-radius:3px;}
+.bar-chart{display:flex;gap:16px;align-items:flex-end;height:150px;padding:8px 0 0;}
+.bar-group{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;}
+.bar-pair{display:flex;gap:5px;align-items:flex-end;width:100%;}
+.bar{border-radius:4px 4px 0 0;min-height:4px;flex:1;transition:opacity .2s;}
+.bar:hover{opacity:.75;}
+.bar-blue{background:linear-gradient(180deg,#60a5fa,#2563eb);}
+.bar-red{background:linear-gradient(180deg,#f87171,#dc2626);}
+.bar-label{font-size:11px;color:var(--muted);text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:80px;}
+.chart-foot{display:flex;justify-content:space-between;border-top:1px solid var(--border);padding-top:12px;margin-top:12px;}
+.chart-foot span{font-size:12px;color:var(--muted);}
+.chart-type-switcher{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px;}
+.chart-type-btn{border:1px solid var(--border);background:var(--bg);color:var(--muted);padding:7px 11px;border-radius:8px;font:600 11px 'Sarabun',sans-serif;cursor:pointer;transition:.2s;}
+.chart-type-btn:hover{border-color:var(--blue);color:var(--blue);}
+.chart-type-btn.active{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 4px 12px rgba(31,94,255,.2);}
+.compare-chart-stage{min-height:275px;}
+.hbar-list,.stacked-list{display:flex;flex-direction:column;gap:15px;}
+.hbar-row,.stacked-row{display:grid;grid-template-columns:150px 1fr;gap:14px;align-items:center;}
+.hbar-name,.stacked-name{font-size:12px;font-weight:600;color:var(--muted);text-align:right;}
+.hbar-track{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:center;}
+.hbar-side{height:18px;background:var(--border-soft);border-radius:5px;overflow:hidden;position:relative;}
+.hbar-fill{height:100%;border-radius:5px;min-width:3px;}
+.hbar-fill.blue{background:linear-gradient(90deg,#60a5fa,#2563eb);}
+.hbar-fill.red{background:linear-gradient(90deg,#f87171,#dc2626);}
+.chart-value{position:absolute;right:6px;top:1px;font:600 10px 'IBM Plex Mono',monospace;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.35);}
+.stacked-track{height:25px;background:var(--border-soft);border-radius:6px;display:flex;overflow:hidden;}
+.stack-segment{height:100%;display:flex;align-items:center;justify-content:center;color:#fff;font:600 10px 'IBM Plex Mono',monospace;min-width:3px;}
+.stack-blue{background:linear-gradient(90deg,#60a5fa,#2563eb);}.stack-red{background:linear-gradient(90deg,#f87171,#dc2626);}
+.heatmap-wrap{overflow-x:auto;}.heatmap-grid{display:grid;grid-template-columns:135px repeat(8,minmax(54px,1fr));gap:5px;min-width:650px;align-items:center;}
+.heat-label{font-size:11px;font-weight:600;color:var(--muted);}.heat-hour{text-align:center;font:500 10px 'IBM Plex Mono',monospace;color:var(--faint);}
+.heat-cell{height:30px;border-radius:5px;display:grid;place-items:center;font:600 10px 'IBM Plex Mono',monospace;color:rgba(8,18,40,.72);}
+.heat-0{background:#eef4fb}.heat-1{background:#bfdbfe}.heat-2{background:#67e8f9}.heat-3{background:#fde68a}.heat-4{background:#fb923c;color:#fff}.heat-5{background:#dc2626;color:#fff}
+.heat-legend{display:flex;align-items:center;justify-content:flex-end;gap:5px;margin-top:12px;font-size:10px;color:var(--muted);}.heat-key{width:22px;height:9px;border-radius:3px;}
+.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;}.calendar-head{text-align:center;font-size:10px;font-weight:700;color:var(--muted);padding:4px;}
+.calendar-day{min-height:46px;border-radius:7px;padding:6px;font:600 11px 'IBM Plex Mono',monospace;border:1px solid rgba(255,255,255,.5);}.calendar-day.empty{background:transparent;border-color:transparent;}
+.recent-events-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.event-panel{background:var(--card);border-radius:12px;overflow:hidden;}
+.ep-blue{border:1.5px solid #bfdbfe;}
+.ep-red{border:1.5px solid #fecaca;}
+.ep-header{padding:13px 18px;font-size:13.5px;font-weight:700;display:flex;align-items:center;gap:8px;}
+.ep-blue .ep-header{background:#eff6ff;color:#1d4ed8;}
+.ep-red .ep-header{background:#fff5f5;color:#b91c1c;}
+.event-list{padding:0 16px 12px;}
+.event-row{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--border-soft);}
+.event-row:last-child{border-bottom:none;}
+.eti{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.eti-b{background:#dbeafe;} .eti-b svg{color:#2563eb;}
+.eti-r{background:#fee2e2;} .eti-r svg{color:#dc2626;}
+.event-info{flex:1;}
+.event-name{font-size:13px;font-weight:600;color:var(--navy);}
+.event-desc{font-size:11.5px;color:var(--muted);margin-top:1px;}
+.event-time{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);text-align:right;flex-shrink:0;}
+.event-day{font-size:11px;color:var(--faint);}
+
+/* ── BREADCRUMB ── */
+.breadcrumb{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);margin-bottom:18px;}
+.breadcrumb a{color:var(--muted);text-decoration:none;} 
+.breadcrumb a:hover{color:var(--blue);}
+.breadcrumb span{color:var(--navy);font-weight:600;}
+.bc-sep{color:var(--border);}
+
+/* ── GOLD DIVIDER ── */
+.gold-rule{height:2px;background:linear-gradient(90deg,var(--sky),rgba(54,209,255,0.08));border-radius:2px;margin:20px 0;}
+
+/* MAP */
+.map-card{position:relative;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;box-shadow:0 1px 4px rgba(13,31,60,.05)}
+.map-canvas{height:calc(100vh - 235px);min-height:480px;border-radius:9px;overflow:hidden;background:#e8eef7}
+.map-message{position:absolute;z-index:500;top:50%;left:50%;transform:translate(-50%,-50%);padding:12px 16px;border-radius:9px;background:rgba(255,255,255,.95);box-shadow:0 8px 24px rgba(13,31,60,.16);font-size:13px;font-weight:600;color:var(--muted)}
+.map-device-pin{position:relative;display:block;width:24px;height:24px;background:var(--blue);border:3px solid #fff;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 3px 10px rgba(8,18,40,.38)}
+.map-device-pin::after{content:'';position:absolute;width:7px;height:7px;top:6px;left:6px;border-radius:50%;background:#fff}
+
+/* DARK MODE */
+body.dark{
+  --navy:#eaf4ff;
+  --royal:#7db5ff;
+  --blue:#67a3ff;
+  --sky:#38cfff;
+  --gold-pale:#153451;
+  --bg:#071426;
+  --card:#0d2038;
+  --border:#24415f;
+  --border-soft:#19344f;
+  --text:#eaf4ff;
+  --muted:#a8c0dc;
+  --faint:#7895b4;
+  --green-bg:#123b31;
+  --red-bg:#48242a;
+  --amber-bg:#493a1e;
+  color-scheme:dark;
+}
+body.dark .gov-topbar{background:#081228}
+body.dark .topbar{background:rgba(8,25,45,.94);box-shadow:0 2px 14px rgba(0,0,0,.28)}
+body.dark .stat-card,
+body.dark .card{background:linear-gradient(180deg,#0d2038 0%,#0a1a30 100%);box-shadow:0 1px 8px rgba(0,0,0,.28)}
+body.dark .stat-card:hover{box-shadow:0 8px 18px rgba(0,0,0,.38)}
+body.dark .btn-reset{background:#102944;color:var(--muted);border-color:var(--border)}
+body.dark .btn-reset:hover{background:#173754;color:var(--text);border-color:#4d82b5}
+body.dark .table-wrap{background:#0d2038;color:var(--text)}
+body.dark .table-wrap thead tr{background:#102944;border-bottom-color:#315474}
+body.dark .table-wrap th{color:#b9d2ec}
+body.dark .table-wrap td{color:var(--text)}
+body.dark .table-wrap tbody tr{border-bottom-color:var(--border-soft)}
+body.dark .table-wrap tbody tr:hover{background:#132d49}
+body.dark .table-foot{background:#0a1a30;color:var(--muted);border-top-color:var(--border-soft)}
+body.dark .device-select,
+body.dark .user-chip{background:#102944}
+body.dark .tabs{background:rgba(13,32,56,.92)}
+body.dark .tab.active{background:#1b3f67;color:#fff}
+body.dark .c1 .cam-select{background:#102d4e;border-color:#315f91}
+body.dark .c2 .cam-select{background:#3a222d;border-color:#784253}
+body.dark .ep-blue .ep-header{background:#102d4e;color:#8fc1ff}
+body.dark .ep-red .ep-header{background:#3a222d;color:#ff9ca8}
+body.dark .map-message{background:rgba(13,32,56,.96)}
+body.dark #dark-mode-btn{background:#183c62;color:#d9eeff;border-color:#4d82b5}
+@media(max-width:700px){.map-canvas{height:calc(100vh - 205px);min-height:380px}}
+</style>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-emblem">
+      <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    </div>
+    <div class="brand-title">สำนักงานจังหวัดเชียงใหม่</div>
+    <div class="brand-sub">Provincial Office · Chiang Mai</div>
+    <div class="brand-sys">ระบบ CCTV Webhook · 5G Metaverse</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section">Menu</div>
+    <a class="nav-item active" onclick="showPage('dashboard',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      Dashboard
+    </a>
+    <a class="nav-item" onclick="showPage('equipment',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 10l4.553-2.069A1 1 0 0121 8.87V15.13a1 1 0 01-1.447.9L15 14M3 8h12v8H3z"/></svg>
+      Equipment
+    </a>
+    <a class="nav-item" onclick="showPage('compare',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+      Compare
+    </a>
+    <a class="nav-item" onclick="showPage('map',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l-6 3V6l6-3 6 3 6-3v15l-6 3-6-3z"/><path d="M9 3v15M15 6v15"/></svg>
+      Map
+    </a>
+    <div class="nav-section" style="margin-top:8px">Preferences</div>
+    <a class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      Support
+    </a>
+  </nav>
+  <div class="sidebar-foot">
+    <button class="btn-export">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+      Export รายงาน
+    </button>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- GOV TOP BAR -->
+  <div class="gov-topbar">
+    <div class="gov-topbar-left">
+      <span class="gov-flag">🇹🇭</span>
+      <span class="gov-tag">เว็บไซต์อย่างเป็นทางการของสำนักงานจังหวัดเชียงใหม่ · ศูนย์ปฏิบัติการดิจิทัล 5G</span>
+    </div>
+    <div class="gov-topbar-right">
+      
+      
+    </div>
+  </div>
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <span class="topbar-title" id="topbar-title">Webhook Dashboard</span>
+      <div class="topbar-divider"></div>
+      <div class="device-wrap" id="device-filter-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 10l4.553-2.069A1 1 0 0121 8.87V15.13a1 1 0 01-1.447.9L15 14M3 8h12v8H3z"/></svg>
+        <select class="device-select" id="topbar-device">
+          <option>ทุกอุปกรณ์</option>
+          <option>หน้าประตูทางเข้าหลัก (มุมซ้าย)</option>
+          <option>หน้าประตูทางเข้าหลัก (มุมขวา)</option>
+          <option>ประตูทางเข้าทิศเหนือ (ด้านใน)</option>
+          <option>ประตูทางเข้าทิศเหนือ 2</option>
+          <option>ประตูทางเข้าทิศใต้ (ด้านนอก)</option>
+          <option>ประตูทางเข้าทิศใต้ (ด้านใน)</option>
+          <option>บริเวณด้านหน้าอ่างน้ำ ทิศเหนือ</option>
+          <option>บริเวณด้านหน้าอ่างน้ำ ทิศเหนือ 2</option>
+          <option>พื้นที่เข้ามอเตอร์ไซต์</option>
+          <option>โถงทางเข้า</option>
+          <option>หลังอาคารอำนวยการ</option>
+          <option>มุมอาคารด้านใต้</option>
+        </select>
+        <span class="device-arrow">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </span>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <span class="topbar-meta" id="topbar-date">อัปเดต: 10/03/2026 23:45</span>
+      <button class="icon-btn" id="dark-mode-btn" onclick="toggleDark()" title="Dark mode" aria-label="Dark mode">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <button class="icon-btn" onclick="window.location.reload()" title="รีเฟรช" aria-label="รีเฟรช">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+      </button>
+      <div class="user-chip">
+        <div class="user-avatar">ผ</div>
+        <span class="user-name">เจ้าหน้าที่</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- ═══ DASHBOARD ═══ -->
+    <div class="page active" id="page-dashboard">
+      <div class="breadcrumb">
+        <a href="#">หน้าหลัก</a><span class="bc-sep">›</span>
+        <span>สรุปเหตุการณ์รายวัน</span>
+      </div>
+      <div class="ph-row" style="margin-bottom:6px">
+        <div>
+          <div class="page-title">สรุปเหตุการณ์รายวัน</div>
+          <div class="page-sub">ข้อมูลเหตุการณ์ประจำวันที่ 10/03/2026 — สำนักงานจังหวัดเชียงใหม่</div>
+        </div>
+        <div class="page-badge">ระบบทำงานปกติ</div>
+      </div>
+      <div class="gold-rule"></div>
+
+      <div class="tabs" id="dash-tabs">
+        <button class="tab active" onclick="setTab(this,'dash-tabs')">รายวัน</button>
+        <button class="tab" onclick="setTab(this,'dash-tabs')">รายเดือน</button>
+        <button class="tab" onclick="setTab(this,'dash-tabs')">รายปี</button>
+        <button class="tab" onclick="setTab(this,'dash-tabs')">ภาพรวม</button>
+      </div>
+
+      <div class="stats-row stats-4">
+        <div class="stat-card">
+          <div class="sc-header">
+            <span class="sc-label">เหตุการณ์วันนี้</span>
+            <div class="sc-icon si-navy">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+          </div>
+          <div><span class="sc-value">0</span><span class="sc-unit">รายการ</span></div>
+          <div class="sc-mini-bar">
+            <div class="mb-seg"></div><div class="mb-seg"></div><div class="mb-seg"></div>
+            <div class="mb-seg"></div><div class="mb-seg"></div><div class="mb-seg"></div>
+            <div class="mb-seg"></div><div class="mb-seg mb-filled"></div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="sc-header">
+            <span class="sc-label">เทียบเมื่อวาน</span>
+            <div class="sc-icon si-blue">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </div>
+          </div>
+          <div><span class="sc-value">0</span></div>
+          <div class="sc-detail"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/></svg>เมื่อวาน 0 รายการ</div>
+        </div>
+        <div class="stat-card">
+          <div class="sc-header">
+            <span class="sc-label">เฉลี่ย/ชั่วโมง</span>
+            <div class="sc-icon si-gold">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+          </div>
+          <div><span class="sc-value">0</span><span class="sc-unit">รายการ</span></div>
+          <div class="sc-detail">อัตราเฉลี่ยในช่วงนี้</div>
+        </div>
+        <div class="stat-card">
+          <div class="sc-header">
+            <span class="sc-label">อุปกรณ์ที่ใช้งาน</span>
+            <div class="sc-icon si-green">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 10l4.553-2.069A1 1 0 0121 8.87V15.13a1 1 0 01-1.447.9L15 14M3 8h12v8H3z"/></svg>
+            </div>
+          </div>
+          <div><span class="sc-value">0</span><span class="sc-unit">เครื่อง</span></div>
+          <div class="sc-detail"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>0 สถานที่</div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title-row">
+                <div class="card-title-icon cti-blue"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></div>
+                <div class="card-title">เหตุการณ์รายชั่วโมง</div>
+              </div>
+              <div class="card-sub" style="padding-left:34px">จำนวนเหตุการณ์แยกตามชั่วโมงของวันนี้</div>
+            </div>
+            <button class="icon-btn-sm"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg></button>
+          </div>
+          <div class="empty">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+            <span class="empty-text">ยังไม่มีข้อมูลในช่วงเวลานี้</span>
+          </div>
+          <div class="hour-axis">
+            <span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>23:00</span>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title-row">
+                <div class="card-title-icon cti-gold"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg></div>
+                <div class="card-title">ประเภทเหตุการณ์ยอดนิยม</div>
+              </div>
+            </div>
+            <div class="empty" style="padding:20px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 20V10M12 20V4M6 20v-6"/></svg><span class="empty-text">ไม่มีข้อมูล</span></div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title-row">
+                <div class="card-title-icon cti-blue"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+                <div class="card-title">สถานที่เหตุการณ์สูงสุด</div>
+              </div>
+            </div>
+            <div class="empty" style="padding:20px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span class="empty-text">ไม่มีข้อมูล</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filter + Table -->
+      <div class="filter-bar">
+        <div class="ff"><label class="ff-label">สถานที่</label><div class="ff-select-wrap"><select class="ff-select"><option>ทุกสถานที่</option><option>สนง.จ.เชียงใหม่</option></select></div></div>
+        <div class="ff"><label class="ff-label">อุปกรณ์</label><div class="ff-select-wrap"><select class="ff-select"><option>ทุกอุปกรณ์</option><option>มุมอาคารด้านใต้</option><option>หน้าประตูทางเข้าทิศใต้(ด้านใน)</option><option>พื้นที่เข้ามอเตอร์ไซต์</option><option>บริเวณด้านหน้าอ่างน้ำ ทิศเหนือ 2</option></select></div></div>
+        <div class="ff"><label class="ff-label">ประเภทเหตุการณ์</label><div class="ff-select-wrap"><select class="ff-select"><option>ทุกประเภท</option></select></div></div>
+        <div class="ff narrow"><label class="ff-label">วันที่เริ่ม</label><input type="date" class="ff-input"/></div>
+        <div class="ff narrow"><label class="ff-label">วันที่สิ้นสุด</label><input type="date" class="ff-input"/></div>
+        <div class="filter-actions">
+          <button class="btn-filter"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>กรอง</button>
+          <button class="btn-reset"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.51"/></svg>รีเซ็ต</button>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <div class="table-hbar">
+          <div><div class="table-title">เหตุการณ์ล่าสุด (Recent Events)</div></div>
+          <button class="btn-csv"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>CSV</button>
+        </div>
+        <div class="empty">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+          <span class="empty-text">ไม่พบเหตุการณ์</span>
+          <span class="empty-sub">เหตุการณ์ Webhook จะแสดงที่นี่เมื่อได้รับข้อมูล</span>
+        </div>
+        <div class="table-foot">แสดง 0-0 จาก 0</div>
+      </div>
+    </div>
+
+    <!-- ═══ EQUIPMENT ═══ -->
+    <div class="page" id="page-equipment">
+      <div class="breadcrumb">
+        <a href="#">หน้าหลัก</a><span class="bc-sep">›</span>
+        <span>อุปกรณ์ทั้งหมด</span>
+      </div>
+      <div class="ph-row" style="margin-bottom:6px;align-items:flex-start">
+        <div>
+          <div class="page-title">Equipment</div>
+          <div class="page-sub">จัดการและตรวจสอบอุปกรณ์กล้องวงจรปิดทั้งหมด</div>
+        </div>
+        <div class="eq-chips">
+          <div class="eq-chip">
+            <div class="eq-chip-label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--royal)" stroke-width="2"><path d="M15 10l4.553-2.069A1 1 0 0121 8.87V15.13a1 1 0 01-1.447.9L15 14M3 8h12v8H3z"/></svg>
+              <span class="eq-chip-text">กล้องทั้งหมด</span>
+            </div>
+            <div class="eq-chip-val">4</div>
+          </div>
+          <div class="eq-chip chip-online">
+            <div class="eq-chip-label">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><path d="M1.42 9a16 16 0 0 1 21.16 0M5 12.55a11 11 0 0 1 14.08 0M10.71 17.4a4 4 0 0 1 2.58 0M12.5 20h.01"/></svg>
+              <span class="eq-chip-text">กล้องที่ใช้งาน</span>
+            </div>
+            <div class="eq-chip-val">0</div>
+          </div>
+        </div>
+      </div>
+      <div class="gold-rule"></div>
+
+      <div class="filter-bar">
+        <div class="ff"><label class="ff-label">อุปกรณ์</label><div class="ff-select-wrap"><select class="ff-select">
+          <option>ทุกอุปกรณ์</option>
+          <option>หน้าประตูทางเข้าหลัก (มุมซ้าย)</option>
+          <option>หน้าประตูทางเข้าหลัก (มุมขวา)</option>
+          <option>ประตูทางเข้าทิศเหนือ (ด้านใน)</option>
+          <option>ประตูทางเข้าทิศเหนือ 2</option>
+          <option>ประตูทางเข้าทิศใต้ (ด้านนอก)</option>
+          <option>ประตูทางเข้าทิศใต้ (ด้านใน)</option>
+          <option>บริเวณด้านหน้าอ่างน้ำ ทิศเหนือ</option>
+          <option>บริเวณด้านหน้าอ่างน้ำ ทิศเหนือ 2</option>
+          <option>พื้นที่เข้ามอเตอร์ไซต์</option>
+          <option>โถงทางเข้า</option>
+          <option>หลังอาคารอำนวยการ</option>
+          <option>มุมอาคารด้านใต้</option>
+        </select></div></div>
+        <div class="ff narrow"><label class="ff-label">สถานะ</label><div class="ff-select-wrap"><select class="ff-select"><option>ทั้งหมด</option><option>ออนไลน์</option><option>ออฟไลน์</option></select></div></div>
+        <div class="filter-actions">
+          <button class="btn-filter"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>กรอง</button>
+          <button class="btn-reset"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.51"/></svg>รีเซ็ต</button>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <div class="table-hbar">
+          <div><div class="table-title">รายการอุปกรณ์</div><div class="table-count">แสดง 1-4 จาก 4 อุปกรณ์</div></div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>สถานะ</th><th>ชื่ออุปกรณ์</th><th>สถานที่</th>
+                <th>เหตุการณ์</th><th>วันนี้</th><th>ล่าสุด ↓</th>
+                <th>ลงทะเบียน</th><th>IP</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="status-badge sb-red"><span class="dot dot-red"></span>ไม่ได้ใช้งาน</span></td>
+                <td><div class="device-name">มุมอาคารด้านใต้</div><div class="device-id">9218E5CF9E2848B18...</div><div class="device-box">Box: HMXTKE6BEJHBJ0392</div></td>
+                <td><span class="loc-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>สนง.จ.เชียงใหม่</span><br/><span style="font-size:11px;color:var(--faint)">1F</span></td>
+                <td><span class="event-count">5,138</span></td>
+                <td><span class="day-badge">0</span></td>
+                <td><span class="ts">18/02/2026<br/>16:17:30</span></td>
+                <td><span class="ts">13/02/2026</span></td>
+                <td><span class="ts">119.42.109.243</span></td>
+              </tr>
+              <tr>
+                <td><span class="status-badge sb-red"><span class="dot dot-red"></span>ไม่ได้ใช้งาน</span></td>
+                <td><div class="device-name">หน้าประตูทางเข้าทิศใต้ (ด้านใน)</div><div class="device-id">1B67802162AB47699...</div><div class="device-box">Box: HMXTKE6BEJHBJ0392</div></td>
+                <td><span class="loc-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>สนง.จ.เชียงใหม่</span><br/><span style="font-size:11px;color:var(--faint)">1F</span></td>
+                <td><span class="event-count">592</span></td>
+                <td><span class="day-badge">0</span></td>
+                <td><span class="ts">18/02/2026<br/>16:16:48</span></td>
+                <td><span class="ts">13/02/2026</span></td>
+                <td><span class="ts">119.42.109.243</span></td>
+              </tr>
+              <tr>
+                <td><span class="status-badge sb-red"><span class="dot dot-red"></span>ไม่ได้ใช้งาน</span></td>
+                <td><div class="device-name">พื้นที่เข้ามอเตอร์ไซต์</div><div class="device-id">B4D32673919A4628B...</div><div class="device-box">Box: HMXTKE6BEJHBJ0392</div></td>
+                <td><span class="loc-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>สนง.จ.เชียงใหม่</span><br/><span style="font-size:11px;color:var(--faint)">1F</span></td>
+                <td><span class="event-count">2</span></td>
+                <td><span class="day-badge">0</span></td>
+                <td><span class="ts">18/02/2026<br/>15:16:07</span></td>
+                <td><span class="ts">17/02/2026</span></td>
+                <td><span class="ts">119.42.109.243</span></td>
+              </tr>
+              <tr>
+                <td><span class="status-badge sb-red"><span class="dot dot-red"></span>ไม่ได้ใช้งาน</span></td>
+                <td><div class="device-name">บริเวณด้านหน้าอ่างน้ำ ทิศเหนือ 2</div><div class="device-id">5DCAF2969CFA46128...</div><div class="device-box">Box: HMXTKE6BEJHBJ0392</div></td>
+                <td><span class="loc-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>สนง.จ.เชียงใหม่</span><br/><span style="font-size:11px;color:var(--faint)">1F</span></td>
+                <td><span class="event-count">1</span></td>
+                <td><span class="day-badge">0</span></td>
+                <td><span class="ts">13/02/2026<br/>15:41:31</span></td>
+                <td><span class="ts">13/02/2026</span></td>
+                <td><span class="ts">1.20.202.14</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="table-foot">แสดง 1-4 จาก 4</div>
+      </div>
+    </div>
+
+    <!-- ═══ COMPARE ═══ -->
+    <div class="page" id="page-compare">
+      <div class="breadcrumb">
+        <a href="#">หน้าหลัก</a><span class="bc-sep">›</span>
+        <span>Compare</span>
+      </div>
+      <div class="ph-row" style="margin-bottom:6px;align-items:center">
+        <div>
+          <div class="page-title">Compare</div>
+          <div class="page-sub">เปรียบเทียบสถิติและเหตุการณ์ระหว่างกล้อง 2 ตัว</div>
+        </div>
+        <div class="tabs" style="margin-bottom:0" id="cmp-tabs">
+          <button class="tab active" onclick="setTab(this,'cmp-tabs')">วัน</button>
+          <button class="tab" onclick="setTab(this,'cmp-tabs')">สัปดาห์</button>
+          <button class="tab" onclick="setTab(this,'cmp-tabs')">เดือน</button>
+          <button class="tab" onclick="setTab(this,'cmp-tabs')">ปี</button>
+        </div>
+      </div>
+      <div class="gold-rule"></div>
+
+      <div class="compare-selectors">
+        <div class="cam-sel-card c1">
+          <div class="cam-sel-label">กล้อง 1</div>
+          <div class="cam-sel-wrap">
+            <select class="cam-select" id="cam1-sel" onchange="updateCompare()">
+              <option>มุมอาคารด้านใต้</option>
+              <option>หน้าประตูทางเข้าทิศใต้ (ด้านใน)</option>
+              <option>พื้นที่เข้ามอเตอร์ไซต์</option>
+              <option>บริเวณด้านหน้าอ่างน้ำ ทิศเหนือ 2</option>
+            </select>
+          </div>
+        </div>
+        <div class="cam-sel-card c2">
+          <div class="cam-sel-label">กล้อง 2</div>
+          <div class="cam-sel-wrap">
+            <select class="cam-select" id="cam2-sel" onchange="updateCompare()">
+              <option>หน้าประตูทางเข้าทิศใต้ (ด้านใน)</option>
+              <option>มุมอาคารด้านใต้</option>
+              <option>พื้นที่เข้ามอเตอร์ไซต์</option>
+              <option>บริเวณด้านหน้าอ่างน้ำ ทิศเหนือ 2</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="compare-chart-card">
+        <div class="chart-header">
+          <div>
+            <div class="card-title">เปรียบเทียบประเภทเหตุการณ์</div>
+            <div class="card-sub" style="margin-top:2px">จำแนกตามประเภทเหตุการณ์ที่ตรวจพบ</div>
+          </div>
+          <div class="chart-legend">
+            <div class="legend-item"><div class="legend-dot" style="background:linear-gradient(135deg,#60a5fa,#2563eb)"></div><span id="legend-cam1">มุมอาคารด้านใต้</span></div>
+            <div class="legend-item"><div class="legend-dot" style="background:linear-gradient(135deg,#f87171,#dc2626)"></div><span id="legend-cam2">หน้าประตูทางเข้าทิศใต้ (ด้านใน)</span></div>
+          </div>
+        </div>
+        <div class="chart-type-switcher" id="chart-type-switcher">
+          <button class="chart-type-btn active" onclick="setCompareChart('horizontal',this)">Horizontal Bar</button>
+          <button class="chart-type-btn" onclick="setCompareChart('stacked',this)">Stacked Bar</button>
+          <button class="chart-type-btn" onclick="setCompareChart('timeHeatmap',this)">Time Heatmap</button>
+          <button class="chart-type-btn" onclick="setCompareChart('calendar',this)">Calendar Heatmap</button>
+        </div>
+        <div class="compare-chart-stage" id="compare-chart-stage"></div>
+      </div>
+
+      <div class="recent-events-grid">
+        <div class="event-panel ep-blue">
+          <div class="ep-header"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.51"/></svg><span id="panel1-title">[มุมอาคารด้านใต้] เหตุการณ์ล่าสุด</span></div>
+          <div class="event-list">
+            <div class="event-row"><div class="eti eti-b"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg></div><div class="event-info"><div class="event-name">รถจักรยานไฟฟ้า</div><div class="event-desc">ตรวจพบรถจักรยานไฟฟ้าเข้าพื้นที่</div></div><div class="event-time">16:17:30<div class="event-day">วันนี้</div></div></div>
+            <div class="event-row"><div class="eti eti-b"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg></div><div class="event-info"><div class="event-name">รถจักรยานไฟฟ้า</div><div class="event-desc">ตรวจพบรถจักรยานไฟฟ้าเข้าพื้นที่</div></div><div class="event-time">16:16:29<div class="event-day">วันนี้</div></div></div>
+            <div class="event-row"><div class="eti eti-b"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg></div><div class="event-info"><div class="event-name">รถจักรยานไฟฟ้า</div><div class="event-desc">ตรวจพบรถจักรยานไฟฟ้าเข้าพื้นที่</div></div><div class="event-time">16:15:28<div class="event-day">วันนี้</div></div></div>
+          </div>
+        </div>
+        <div class="event-panel ep-red">
+          <div class="ep-header"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.51"/></svg><span id="panel2-title">[หน้าประตูทางเข้าทิศใต้ (ด้านใน)] เหตุการณ์ล่าสุด</span></div>
+          <div class="event-list">
+            <div class="event-row"><div class="eti eti-r"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div class="event-info"><div class="event-name">บุกรุกพื้นที่</div><div class="event-desc">ตรวจพบการเดินผ่านเส้นต้องห้าม</div></div><div class="event-time">16:16:48<div class="event-day">วันนี้</div></div></div>
+            <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;gap:8px"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--border)" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="9 12 12 15 15 12"/><line x1="12" y1="9" x2="12" y2="15"/></svg><span style="font-size:12.5px;color:var(--faint)">ไม่มีเหตุการณ์อื่นในช่วงนี้</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAP -->
+    <div class="page" id="page-map">
+      <div class="breadcrumb"><a href="#">หน้าหลัก</a><span class="bc-sep">›</span><span>Map</span></div>
+      <div class="ph-row" style="margin-bottom:6px"><div><div class="page-title">แผนที่อุปกรณ์</div><div class="page-sub">ตำแหน่งล่าสุดของอุปกรณ์จากระบบ Backend</div></div></div>
+      <div class="gold-rule"></div>
+      <div class="map-card"><div id="equipment-map" class="map-canvas"></div><div id="map-message" class="map-message">กำลังโหลดตำแหน่งอุปกรณ์...</div></div>
+    </div>
+  </div>
+</main>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+<script>
+function showPage(id, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  el.classList.add('active');
+  const titles = {dashboard:'Webhook Dashboard', equipment:'Equipment', compare:'Compare', map:'Map'};
+  document.getElementById('topbar-title').textContent = titles[id] || id;
+  document.getElementById('device-filter-wrap').style.display = id === 'dashboard' ? '' : 'none';
+  if (id === 'map') initEquipmentMap();
+}
+let equipmentMap = null;
+let equipmentMapLoaded = false;
+let equipmentMarkerLayer = null;
+let equipmentHeatLayer = null;
+async function initEquipmentMap() {
+  const message = document.getElementById('map-message');
+  if (!equipmentMap) {
+    equipmentMap = L.map('equipment-map', { minZoom:6, maxZoom:19 }).setView([18.837124, 98.970817], 17);
+    const streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom:19, attribution:'&copy; OpenStreetMap contributors' }).addTo(equipmentMap);
+    const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom:19, attribution:'Tiles &copy; Esri, Maxar, Earthstar Geographics, and the GIS User Community' });
+    equipmentMarkerLayer = L.layerGroup().addTo(equipmentMap);
+    equipmentHeatLayer = L.heatLayer([], { radius:34, blur:24, maxZoom:18, minOpacity:.32 });
+    L.control.layers(
+      { 'แผนที่ 2D':streetLayer, 'ดาวเทียม':satelliteLayer },
+      { 'หมุดอุปกรณ์':equipmentMarkerLayer, 'Heatmap เหตุการณ์':equipmentHeatLayer },
+      { position:'topright', collapsed:true }
+    ).addTo(equipmentMap);
+  }
+  setTimeout(() => equipmentMap.invalidateSize(), 50);
+  if (equipmentMapLoaded) return;
+  try {
+    const response = await fetch('map.php?format=json', { headers:{ Accept:'application/json' } });
+    if (!response.ok) throw new Error('HTTP ' + response.status);
+    const markers = await response.json();
+    const bounds = [];
+    const pinIcon = L.divIcon({ className:'', html:'<span class="map-device-pin"></span>', iconSize:[24,32], iconAnchor:[12,30] });
+    const heatPoints = [];
+    markers.forEach((item,index) => {
+      L.marker([item.lat,item.lng], { icon:pinIcon, title:item.id }).addTo(equipmentMarkerLayer);
+      heatPoints.push([item.lat,item.lng,.55 + ((index % 5) * .1)]);
+      bounds.push([item.lat,item.lng]);
+    });
+    equipmentHeatLayer.setLatLngs(heatPoints);
+    if (bounds.length === 1) equipmentMap.setView(bounds[0], 16);
+    else if (bounds.length > 1) equipmentMap.fitBounds(bounds, { padding:[36,36], maxZoom:16 });
+    message.style.display = bounds.length ? 'none' : 'block';
+    if (!bounds.length) message.textContent = 'ไม่พบอุปกรณ์ที่มีพิกัดถูกต้อง';
+    equipmentMapLoaded = true;
+  } catch (error) {
+    message.textContent = 'ไม่สามารถโหลดข้อมูลตำแหน่งจาก Backend ได้';
+    console.error('Map data error:', error);
+  }
+}
+
+const compareChartData = {
+  categories:['รถจักรยานไฟฟ้า','บุกรุกพื้นที่','จอดรถผิดที่','สูบบุหรี่'],
+  camera1:[5138,318,146,72],
+  camera2:[592,824,93,48],
+  timeRows:[[1,2,1,3,5,4,2,1],[0,1,2,4,5,3,2,1],[1,1,2,3,4,5,3,2],[0,1,1,2,3,2,1,0]],
+  calendar:[0,1,3,0,2,4,1,0,2,5,3,1,0,2,4,5,2,1,0,3,4,2,1,5,3,0,2,4,1,0,3]
+};
+let currentCompareChart = 'horizontal';
+
+function setCompareChart(type,button) {
+  currentCompareChart = type;
+  document.querySelectorAll('.chart-type-btn').forEach(item => item.classList.remove('active'));
+  if (button) button.classList.add('active');
+  renderCompareChart(type);
+}
+
+function renderCompareChart(type = currentCompareChart) {
+  const stage = document.getElementById('compare-chart-stage');
+  if (!stage) return;
+  const camera1 = document.getElementById('cam1-sel').value;
+  const camera2 = document.getElementById('cam2-sel').value;
+  const data = compareChartData;
+  const total1 = data.camera1.reduce((sum,value) => sum + value,0);
+  const total2 = data.camera2.reduce((sum,value) => sum + value,0);
+
+  if (type === 'horizontal') {
+    const maxValue = Math.max(...data.camera1,...data.camera2);
+    stage.innerHTML = '<div class="hbar-list">' + data.categories.map((name,index) => `
+      <div class="hbar-row"><div class="hbar-name">${name}</div><div class="hbar-track">
+        <div class="hbar-side"><div class="hbar-fill blue" style="width:${Math.max(2,data.camera1[index]/maxValue*100)}%"><span class="chart-value">${data.camera1[index].toLocaleString()}</span></div></div>
+        <div class="hbar-side"><div class="hbar-fill red" style="width:${Math.max(2,data.camera2[index]/maxValue*100)}%"><span class="chart-value">${data.camera2[index].toLocaleString()}</span></div></div>
+      </div></div>`).join('') + `</div><div class="chart-foot"><span>${camera1}: <strong>${total1.toLocaleString()}</strong></span><span>${camera2}: <strong>${total2.toLocaleString()}</strong></span></div>`;
+    return;
+  }
+
+  if (type === 'stacked') {
+    stage.innerHTML = '<div class="stacked-list">' + data.categories.map((name,index) => {
+      const total = data.camera1[index] + data.camera2[index];
+      const blueWidth = total ? data.camera1[index] / total * 100 : 50;
+      return `<div class="stacked-row"><div class="stacked-name">${name}</div><div class="stacked-track"><div class="stack-segment stack-blue" style="width:${blueWidth}%">${data.camera1[index].toLocaleString()}</div><div class="stack-segment stack-red" style="width:${100-blueWidth}%">${data.camera2[index].toLocaleString()}</div></div></div>`;
+    }).join('') + `</div><div class="chart-foot"><span>สีน้ำเงิน: ${camera1}</span><span>สีแดง: ${camera2}</span></div>`;
+    return;
+  }
+
+  if (type === 'timeHeatmap') {
+    const hours = ['00:00','03:00','06:00','09:00','12:00','15:00','18:00','21:00'];
+    let cells = '<div></div>' + hours.map(hour => `<div class="heat-hour">${hour}</div>`).join('');
+    data.categories.forEach((name,row) => {
+      cells += `<div class="heat-label">${name}</div>` + data.timeRows[row].map(value => `<div class="heat-cell heat-${value}">${value*12}</div>`).join('');
+    });
+    stage.innerHTML = `<div class="heatmap-wrap"><div class="heatmap-grid">${cells}</div></div><div class="heat-legend"><span>น้อย</span>${[0,1,2,3,4,5].map(value => `<span class="heat-key heat-${value}"></span>`).join('')}<span>มาก</span></div>`;
+    return;
+  }
+
+  const weekdays = ['อา','จ','อ','พ','พฤ','ศ','ส'];
+  const days = data.calendar.map((value,index) => `<div class="calendar-day heat-${value}">${index+1}<br><span style="font-size:9px;font-weight:500">${value*9} เหตุการณ์</span></div>`).join('');
+  stage.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><strong style="font-size:13px">มีนาคม 2026</strong><span style="font-size:11px;color:var(--muted)">เหตุการณ์รวมรายวัน</span></div><div class="calendar-grid">${weekdays.map(day => `<div class="calendar-head">${day}</div>`).join('')}${days}</div><div class="heat-legend"><span>น้อย</span>${[0,1,2,3,4,5].map(value => `<span class="heat-key heat-${value}"></span>`).join('')}<span>มาก</span></div>`;
+}
+
+function setTab(el, gid) {
+  document.querySelectorAll('#'+gid+' .tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+function applyTheme(theme) {
+  const isDark = theme === 'dark';
+  document.body.classList.toggle('dark', isDark);
+  const button = document.getElementById('dark-mode-btn');
+  if (button) {
+    button.setAttribute('aria-pressed', String(isDark));
+    button.title = isDark ? 'Light mode' : 'Dark mode';
+  }
+}
+function toggleDark() {
+  const theme = document.body.classList.contains('dark') ? 'light' : 'dark';
+  localStorage.setItem('dashboard-theme', theme);
+  applyTheme(theme);
+}
+function updateCompare() {
+  const c1 = document.getElementById('cam1-sel').value;
+  const c2 = document.getElementById('cam2-sel').value;
+  document.getElementById('legend-cam1').textContent = c1;
+  document.getElementById('legend-cam2').textContent = c2;
+  document.getElementById('panel1-title').textContent = '[' + c1 + '] เหตุการณ์ล่าสุด';
+  document.getElementById('panel2-title').textContent = '[' + c2 + '] เหตุการณ์ล่าสุด';
+  renderCompareChart(currentCompareChart);
+}
+document.getElementById('device-filter-wrap').style.display = '';
+applyTheme(localStorage.getItem('dashboard-theme') || 'light');
+renderCompareChart();
+</script>
+</body>
+</html>
+
+

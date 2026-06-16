@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require_once __DIR__ . '/back_end/config.php';
 
 $db = getDB();
@@ -23,8 +23,9 @@ function parseCoordinate($value) {
     if (!preg_match('/(-?\d+(?:\.\d+)?)\s*[,，]\s*(-?\d+(?:\.\d+)?)/u', trim((string)$value), $matches)) {
         return null;
     }
-    $lat = (float)$matches[1];
-    $lng = (float)$matches[2];
+    // webhook_events stores coordinates in GeoJSON order: longitude, latitude.
+    $lng = (float)$matches[1];
+    $lat = (float)$matches[2];
     if ($lat < -90 || $lat > 90 || $lng < -180 || $lng > 180) {
         return null;
     }

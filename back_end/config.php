@@ -20,10 +20,21 @@ function getDB() {
     
     if ($pdo === null) {
         try {
+            $dbHost = getenv('DB_HOST');
+            $dbName = getenv('DB_NAME');
+            $dbUser = getenv('DB_USER');
+            $dbPass = getenv('DB_PASS');
+
+            $dbHost = $dbHost === false ? DB_HOST : $dbHost;
+            $dbName = $dbName === false ? DB_NAME : $dbName;
+            $dbUser = $dbUser === false ? DB_USER : $dbUser;
+            $dbPass = $dbPass === false ? DB_PASS : $dbPass;
+            $dbPass = $dbPass === '__EMPTY__' ? '' : $dbPass;
+
             $pdo = new PDO(
-                "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4",
-                DB_USER,
-                DB_PASS,
+                "mysql:host=" . $dbHost . ";dbname=" . $dbName . ";charset=utf8mb4",
+                $dbUser,
+                $dbPass,
                 [
                     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
